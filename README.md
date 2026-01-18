@@ -30,6 +30,34 @@ After checking out the repo, run `bin/setup` to install dependencies. Then, run 
 
 To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and the created tag, and push the `.gem` file to [rubygems.org](https://rubygems.org).
 
+## Publishing to RubyGems
+
+1. Update the version in `lib/stellwerk/version.rb`. Push / merge to main.
+2. Build the gem:
+
+   ```bash
+   gem build stellwerk.gemspec
+   ```
+
+   This should produce `stellwerk-<version>.gem`.
+3. Sign in to RubyGems (only needed once):
+
+   ```bash
+   gem signin
+   ```
+
+4. Push the built gem:
+
+   ```bash
+   gem push stellwerk-<version>.gem
+   ```
+
+5. Tag the release:
+
+   ```bash
+   git tag v<version> && git push origin v<version>
+   ```
+
 ## Contributing
 
 Bug reports and pull requests are welcome on GitHub at https://github.com/exterm/stellwerk. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [code of conduct](https://github.com/exterm/stellwerk/blob/main/CODE_OF_CONDUCT.md).
