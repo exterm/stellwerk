@@ -62,3 +62,9 @@ Considerations:
 - enqueuing jobs and running jobs from the queue are two different things... in terms of static dependencies,
   jobs should probably live in the business logic layer
 - what about lib?
+
+## TODO
+
+- Shortcuts
+  - for CLI command, use a CLI library instead of hand-rolling it
+    - probably, `optparse` built into the stdlib
