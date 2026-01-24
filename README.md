@@ -1,23 +1,23 @@
 # Stellwerk
 
-TODO: Delete this and the text below, and describe your gem
+Stellwerk is a Ruby gem that helps you enforce architectural rules in your Ruby on Rails application. It analyzes your codebase and identifies violations of architectural constraints you specify.
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/stellwerk`. To experiment with that code, run `bin/console` for an interactive prompt.
+## Name
+
+The name "Stellwerk" is derived from the German word for "signal station" in a railway context. It keeps your Rails on track!
 
 ## Installation
-
-TODO: Replace `UPDATE_WITH_YOUR_GEM_NAME_IMMEDIATELY_AFTER_RELEASE_TO_RUBYGEMS_ORG` with your gem name right after releasing it to RubyGems.org. Please do not do it earlier due to security reasons. Alternatively, replace this section with instructions to install your gem from git if you don't plan to release to RubyGems.org.
 
 Install the gem and add to the application's Gemfile by executing:
 
 ```bash
-bundle add UPDATE_WITH_YOUR_GEM_NAME_IMMEDIATELY_AFTER_RELEASE_TO_RUBYGEMS_ORG
+bundle add stellwerk
 ```
 
 If bundler is not being used to manage dependencies, install the gem by executing:
 
 ```bash
-gem install UPDATE_WITH_YOUR_GEM_NAME_IMMEDIATELY_AFTER_RELEASE_TO_RUBYGEMS_ORG
+gem install stellwerk
 ```
 
 ## Usage
@@ -33,30 +33,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 ## Publishing to RubyGems
 
 1. Update the version in `lib/stellwerk/version.rb`. Push / merge to main.
-2. Build the gem:
-
-   ```bash
-   gem build stellwerk.gemspec
-   ```
-
-   This should produce `stellwerk-<version>.gem`.
-3. Sign in to RubyGems (only needed once):
-
-   ```bash
-   gem signin
-   ```
-
-4. Push the built gem:
-
-   ```bash
-   gem push stellwerk-<version>.gem
-   ```
-
-5. Tag the release:
-
-   ```bash
-   git tag v<version> && git push origin v<version>
-   ```
+2. `rake release`
 
 ## Contributing
 
