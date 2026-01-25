@@ -3,6 +3,7 @@ PATH
   specs:
     stellwerk (0.0.1)
       activesupport
+      parallel
       reference_extractor
 
 GEM
@@ -136,9 +137,9 @@ PLATFORMS
 
 DEPENDENCIES
   irb
-  minitest (~> 5.16)
-  rake (~> 13.0)
-  standard (~> 1.3)
+  minitest
+  rake
+  standard
   stellwerk!
 
 BUNDLED WITH

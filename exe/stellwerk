@@ -1,3 +1,14 @@
 #!/usr/bin/env ruby
 
-require "stellwerk/command"
+puts "Hello from stellwerk!"
+
+command = ARGV.shift
+
+case command
+when "check" then
+  require "stellwerk/commands/check"
+  Stellwerk::Commands::Check.new(Pathname.pwd).run
+else
+  puts "unknown command"
+  exit 1
+end
