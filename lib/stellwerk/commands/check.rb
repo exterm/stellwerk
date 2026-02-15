@@ -4,6 +4,7 @@ require "zeitwerk"
 require "parallel"
 
 require "stellwerk/config"
+require "stellwerk/printer"
 
 module Stellwerk
   module Commands
@@ -39,10 +40,8 @@ module Stellwerk
         violations = config.rules.flat_map do |rule|
           rule.find_violations(edgelist)
         end
-        puts "found #{violations.length} violations"
 
-        # output, human or machine readable
-        p violations
+        Stellwerk::Printer.new(violations).print
       end
 
       private

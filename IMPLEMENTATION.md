@@ -68,7 +68,6 @@ Considerations:
 - [ ] test against open source projects
   - [ ] Fizzy
   - [ ] Discourse
-- [ ] Implement basic human-readable output. Should include total count at the end.
 - [ ] Implement VSCode integration (lots of things TBD)
 
 ## Ideas
