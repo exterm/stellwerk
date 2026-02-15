@@ -68,6 +68,7 @@ Considerations:
 - [ ] test against open source projects
   - [ ] Fizzy
   - [ ] Discourse
+- [ ] Implement basic human-readable output. Should include total count at the end.
 - [ ] Implement VSCode integration (lots of things TBD)
 
 ## Ideas
@@ -75,3 +76,4 @@ Considerations:
 - Shortcuts
   - for CLI command, use a CLI library instead of hand-rolling it
     - probably, `optparse` built into the stdlib
+- Support non-rails applications using Zeitwerk
