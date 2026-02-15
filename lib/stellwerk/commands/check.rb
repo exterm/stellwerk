@@ -8,8 +8,9 @@ require "stellwerk/config"
 module Stellwerk
   module Commands
     class Check
-      def initialize(root_path)
+      def initialize(root_path, autoloaders: fake_autoloaders)
         @root_path = Pathname.new(root_path)
+        @autoloaders = autoloaders
       end
 
       def run
@@ -18,7 +19,7 @@ module Stellwerk
 
         # build graph using reference_extractor
         extractor = ReferenceExtractor::Extractor.new(
-          autoloaders: autoloaders,
+          autoloaders: @autoloaders,
           root_path: @root_path
         )
 
@@ -46,7 +47,7 @@ module Stellwerk
 
       private
 
-      def autoloaders
+      def fake_autoloaders
         loader = Zeitwerk::Loader.new
         @root_path.join("app").each_child { |child| loader.push_dir(child) }
         loader.push_dir(@root_path.join("lib"))

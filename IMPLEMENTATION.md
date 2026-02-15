@@ -63,7 +63,14 @@ Considerations:
   jobs should probably live in the business logic layer
 - what about lib?
 
-## TODO
+## Todos
+
+- [ ] test against open source projects
+  - [ ] Fizzy
+  - [ ] Discourse
+- [ ] Implement VSCode integration (lots of things TBD)
+
+## Ideas
 
 - Shortcuts
   - for CLI command, use a CLI library instead of hand-rolling it

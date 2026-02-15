@@ -22,7 +22,11 @@ gem install stellwerk
 
 ## Usage
 
-TODO: Write usage instructions here
+Run the check task in your Rails app:
+
+```bash
+bin/rails stellwerk:check
+```
 
 ## Development
 
