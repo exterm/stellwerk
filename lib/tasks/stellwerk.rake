@@ -6,4 +6,8 @@ namespace :stellwerk do
 
     Stellwerk::Commands::Check.new(Rails.root, autoloaders: autoloaders).run
   end
+
+  task :check_simple do
+    Stellwerk::Commands::Check.new(Dir.pwd).run
+  end
 end

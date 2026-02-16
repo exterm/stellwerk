@@ -9,9 +9,9 @@ require "stellwerk/printer"
 module Stellwerk
   module Commands
     class Check
-      def initialize(root_path, autoloaders: fake_autoloaders)
+      def initialize(root_path, autoloaders: nil)
         @root_path = Pathname.new(root_path)
-        @autoloaders = autoloaders
+        @autoloaders = autoloaders || fake_autoloaders
       end
 
       def run

@@ -9,5 +9,6 @@ gem "irb"
 gem "rake"
 
 gem "minitest"
+gem "mocha"
 
 gem "standard"

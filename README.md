@@ -28,6 +28,12 @@ Run the check task in your Rails app:
 bin/rails stellwerk:check
 ```
 
+Run a simpler check without booting `:environment` (uses statically defined Zeitwerk loaders for `app/*` and `lib`) and will probably miss stuff in more complex Rails apps:
+
+```bash
+bin/rails stellwerk:check_simple
+```
+
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake test` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.

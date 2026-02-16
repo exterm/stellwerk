@@ -67,6 +67,8 @@ GEM
       crass (~> 1.0.2)
       nokogiri (>= 1.12.0)
     minitest (5.27.0)
+    mocha (3.0.1)
+      ruby2_keywords (>= 0.0.5)
     nokogiri (1.19.0-x86_64-linux-gnu)
       racc (~> 1.4)
     parallel (1.27.0)
@@ -139,6 +141,7 @@ GEM
       rubocop (>= 1.75.0, < 2.0)
       rubocop-ast (>= 1.47.1, < 2.0)
     ruby-progressbar (1.13.0)
+    ruby2_keywords (0.0.5)
     securerandom (0.4.1)
     standard (1.52.0)
       language_server-protocol (~> 3.17.0.2)
@@ -171,6 +174,7 @@ PLATFORMS
 DEPENDENCIES
   irb
   minitest
+  mocha
   rake
   standard
   stellwerk!
