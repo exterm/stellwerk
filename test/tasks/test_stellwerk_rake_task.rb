@@ -15,11 +15,24 @@ class TestStellwerkRakeTask < Minitest::Test
 
   def test_check_simple_invokes_check_with_current_directory_and_runs
     check_instance = mock("check")
-    check_instance.expects(:run).once
+    check_instance.expects(:run).once.returns([])
 
     Stellwerk::Commands::Check.expects(:new).with(Dir.pwd).returns(check_instance)
 
     Rake::Task["stellwerk:check_simple"].invoke
+  end
+
+  def test_check_simple_exits_with_status_1_when_violations_exist
+    check_instance = mock("check")
+    check_instance.expects(:run).once.returns([:violation])
+
+    Stellwerk::Commands::Check.expects(:new).with(Dir.pwd).returns(check_instance)
+
+    error = assert_raises(SystemExit) do
+      Rake::Task["stellwerk:check_simple"].invoke
+    end
+
+    assert_equal 1, error.status
   end
 
   def test_check_invokes_check_with_rails_root_and_autoloaders
@@ -29,7 +42,7 @@ class TestStellwerkRakeTask < Minitest::Test
     fake_autoloaders = Struct.new(:main, :once).new(main_loader, nil)
     fake_root = Pathname.new("/tmp/app")
     check_instance = mock("check")
-    check_instance.expects(:run).once
+    check_instance.expects(:run).once.returns([])
 
     Rails.stubs(:autoloaders).returns(fake_autoloaders)
     Rails.stubs(:root).returns(fake_root)
@@ -38,5 +51,24 @@ class TestStellwerkRakeTask < Minitest::Test
       .returns(check_instance)
 
     Rake::Task["stellwerk:check"].invoke
+  end
+
+  def test_check_exits_with_status_1_when_violations_exist
+    Rake::Task.define_task(:environment)
+
+    main_loader = Object.new
+    fake_autoloaders = Struct.new(:main, :once).new(main_loader, nil)
+    check_instance = mock("check")
+    check_instance.expects(:run).once.returns([:violation])
+
+    Rails.stubs(:autoloaders).returns(fake_autoloaders)
+    Rails.stubs(:root)
+    Stellwerk::Commands::Check.expects(:new).returns(check_instance)
+
+    error = assert_raises(SystemExit) do
+      Rake::Task["stellwerk:check"].invoke
+    end
+
+    assert_equal 1, error.status
   end
 end

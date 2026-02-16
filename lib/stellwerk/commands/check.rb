@@ -42,6 +42,8 @@ module Stellwerk
         end
 
         Stellwerk::Printer.new(violations).print
+
+        violations
       end
 
       private

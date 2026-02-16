@@ -4,10 +4,14 @@ namespace :stellwerk do
   task check: :environment do
     autoloaders = [Rails.autoloaders.main, Rails.autoloaders.once].compact
 
-    Stellwerk::Commands::Check.new(Rails.root, autoloaders: autoloaders).run
+    violations = Stellwerk::Commands::Check.new(Rails.root, autoloaders: autoloaders).run
+
+    exit 1 if violations.any?
   end
 
   task :check_simple do
-    Stellwerk::Commands::Check.new(Dir.pwd).run
+    violations = Stellwerk::Commands::Check.new(Dir.pwd).run
+
+    exit 1 if violations.any?
   end
 end
