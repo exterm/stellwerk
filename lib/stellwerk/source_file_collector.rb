@@ -1,8 +1,9 @@
 require "pathname"
 
 module Stellwerk
-  class RubyFileCollector
+  class SourceFileCollector
     EXCLUDED_PATHS = ["db/", "vendor/"]
+    SOURCE_FILE_EXTENSIONS = [".rb", ".erb"]
 
     def initialize(root_path, exclude_paths: EXCLUDED_PATHS)
       @root_path = Pathname.new(root_path)
@@ -15,11 +16,15 @@ module Stellwerk
       end
 
       @root_path.find
-        .select { |path| path.to_s.end_with?(".rb") }
+        .select { |path| source_file?(path) }
         .reject { |path| excluded_path?(path.to_s, absolute_exclude_paths) }
     end
 
     private
+
+    def source_file?(path)
+      SOURCE_FILE_EXTENSIONS.include?(path.extname)
+    end
 
     def excluded_path?(path_str, absolute_exclude_paths)
       absolute_exclude_paths.any? do |exclude_path|

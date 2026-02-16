@@ -1,6 +1,7 @@
 ## [Unreleased]
 
 - fix for `vendor` directory exclusion, which broke the check task
+- check erb files too
 
 ## [0.0.4] - 2026-02-15
 

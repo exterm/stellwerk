@@ -5,7 +5,7 @@ require "parallel"
 
 require "stellwerk/config"
 require "stellwerk/printer"
-require "stellwerk/ruby_file_collector"
+require "stellwerk/source_file_collector"
 
 module Stellwerk
   module Commands
@@ -25,7 +25,7 @@ module Stellwerk
           root_path: @root_path
         )
 
-        all_files = Stellwerk::RubyFileCollector.new(@root_path).call
+        all_files = Stellwerk::SourceFileCollector.new(@root_path).call
         puts "collected #{all_files.length} files"
 
         before = Time.now
