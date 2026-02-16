@@ -22,6 +22,8 @@ gem install stellwerk
 
 ## Usage
 
+Create a `stellwerk.yml` in the root of your Rails application that defines at least one [rule](#rules).
+
 Run the check task in your Rails app:
 
 ```bash
@@ -32,6 +34,24 @@ Run a simpler check without booting `:environment` (uses statically defined Zeit
 
 ```bash
 bin/rails stellwerk:check_simple
+```
+
+### Rules
+
+Rules are defined in the `stellwerk.yml` file.
+
+#### Layered Architecture
+
+The Layered Architecture rule enforces that files in one layer do not reference files in a layer that is "above" it.
+
+Example configuration with three layers:
+
+```yaml
+rules:
+  layers:
+    - app/controllers
+    - [ app/jobs, app/models ]
+    - lib
 ```
 
 ## Development
