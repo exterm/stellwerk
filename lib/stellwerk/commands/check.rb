@@ -9,6 +9,8 @@ require "stellwerk/printer"
 module Stellwerk
   module Commands
     class Check
+      EXCLUDED_PATHS = ["db/", "vendor/"]
+
       def initialize(root_path, autoloaders: nil)
         @root_path = Pathname.new(root_path)
         @autoloaders = autoloaders || fake_autoloaders
@@ -24,9 +26,11 @@ module Stellwerk
           root_path: @root_path
         )
 
+        absolute_exclude_paths = EXCLUDED_PATHS.map { |path| @root_path.join(path) }
+
         all_files = @root_path.find
           .select { |path| path.to_s.end_with?(".rb") }
-          .reject { |path| path.relative_path_from(@root_path).to_s.start_with?("db/") }
+          .reject { |path| absolute_exclude_paths.any? { |exclude| path.start_with?(exclude) } }
         puts "collected #{all_files.length} files"
 
         before = Time.now
