@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    stellwerk (0.0.3)
+    stellwerk (0.0.4)
       activesupport
       parallel
       railties
