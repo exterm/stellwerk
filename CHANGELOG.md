@@ -1,5 +1,7 @@
 ## [Unreleased]
 
+## [0.0.3] - 2026-02-15
+
 - exit with non-zero exit code if any violations are found
 
 ## [0.0.2] - 2026-02-15
