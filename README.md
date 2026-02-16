@@ -1,6 +1,6 @@
 # Stellwerk
 
-Stellwerk is a Ruby gem that helps you enforce architectural rules in your Ruby on Rails application. It analyzes your codebase and identifies violations of architectural constraints you specify.
+Stellwerk is a Ruby gem that helps enforce architectural rules in Ruby on Rails applications. It analyzes the codebase and identifies violations of architectural constraints specified in `stellwerk.yml`.
 
 ## Name
 
@@ -30,7 +30,9 @@ Run the check task in your Rails app:
 bin/rails stellwerk:check
 ```
 
-Run a simpler check without booting `:environment` (uses statically defined Zeitwerk loaders for `app/*` and `lib`) and will probably miss stuff in more complex Rails apps:
+You can also run a simpler check without booting the app. Stellwerk will not use the app's autoloaders and instead emulate a default Rails setup.
+This is useful for testing or as a workaround when Stellwerk doesn't understand your autoloader setup (please report a bug in that case).
+There can be false positives with this mode for custom autoloader configurations.
 
 ```bash
 bin/rails stellwerk:check_simple
@@ -53,6 +55,12 @@ rules:
     - [ app/jobs, app/models ]
     - lib
 ```
+
+In this scenario,
+- all controllers, jobs and models can depend on stuff in `lib`
+- controllers can additionally depend on jobs and models
+- code in `lib` can not depend on controllers, jobs or models and jobs or models can not depend on controllers
+- everything not mentioned (e.g. `app/services`) can depend on anything else and be depended on by anything else
 
 ## Development
 
