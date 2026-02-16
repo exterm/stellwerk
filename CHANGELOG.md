@@ -1,5 +1,7 @@
 ## [Unreleased]
 
+- fix for `vendor` directory exclusion, which broke the check task
+
 ## [0.0.4] - 2026-02-15
 
 - Do not check files in `vendor/`

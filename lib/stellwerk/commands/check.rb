@@ -5,12 +5,11 @@ require "parallel"
 
 require "stellwerk/config"
 require "stellwerk/printer"
+require "stellwerk/ruby_file_collector"
 
 module Stellwerk
   module Commands
     class Check
-      EXCLUDED_PATHS = ["db/", "vendor/"]
-
       def initialize(root_path, autoloaders: nil)
         @root_path = Pathname.new(root_path)
         @autoloaders = autoloaders || fake_autoloaders
@@ -26,11 +25,7 @@ module Stellwerk
           root_path: @root_path
         )
 
-        absolute_exclude_paths = EXCLUDED_PATHS.map { |path| @root_path.join(path) }
-
-        all_files = @root_path.find
-          .select { |path| path.to_s.end_with?(".rb") }
-          .reject { |path| absolute_exclude_paths.any? { |exclude| path.start_with?(exclude) } }
+        all_files = Stellwerk::RubyFileCollector.new(@root_path).call
         puts "collected #{all_files.length} files"
 
         before = Time.now
