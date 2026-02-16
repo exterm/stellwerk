@@ -33,7 +33,7 @@ module Stellwerk
         edgelist = Parallel.flat_map(all_files, in_processes: Parallel.processor_count - 1) do |file|
           extractor.references_from_file(file)
         end
-        puts "extracted #{edgelist.length} edges in #{(Time.now - before).round(2)} seconds"
+        puts "extracted #{edgelist.length} references in #{(Time.now - before).round(2)} seconds"
 
         # check rules against graph, collect violations
         puts "checking rules..."

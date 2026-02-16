@@ -65,9 +65,6 @@ Considerations:
 
 ## Todos
 
-- [ ] test against open source projects
-  - [ ] Fizzy
-  - [ ] Discourse
 - [ ] Implement VSCode integration (lots of things TBD)
 
 ## Ideas
@@ -75,4 +72,4 @@ Considerations:
 - Shortcuts
   - for CLI command, use a CLI library instead of hand-rolling it
     - probably, `optparse` built into the stdlib
-- Support non-rails applications using Zeitwerk
+- Support non-rails applications using Zeitwerk, probably by adding an executable
