@@ -63,8 +63,13 @@ Considerations:
   jobs should probably live in the business logic layer
 - what about lib?
 
-## TODO
+## Todos
+
+- [ ] Implement VSCode integration (lots of things TBD)
+
+## Ideas
 
 - Shortcuts
   - for CLI command, use a CLI library instead of hand-rolling it
     - probably, `optparse` built into the stdlib
+- Support non-rails applications using Zeitwerk, probably by adding an executable
