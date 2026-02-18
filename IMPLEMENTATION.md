@@ -73,3 +73,6 @@ Considerations:
   - for CLI command, use a CLI library instead of hand-rolling it
     - probably, `optparse` built into the stdlib
 - Support non-rails applications using Zeitwerk, probably by adding an executable
+- update this document, complete overhaul
+- document improvements over packwerk
+- formalize changelog here and in reference_extractor, take inspiration from https://github.com/ruby/prism/blob/main/CHANGELOG.md
