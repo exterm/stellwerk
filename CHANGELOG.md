@@ -1,6 +1,7 @@
 ## [Unreleased]
 
 - Add `stellwerk:graph` task to dump the dependency graph as TSV for querying
+- Support multiple named layer stacks and per-stack reference exceptions in the `layers` rule
 
 ## [0.0.5] - 2026-02-15
 
