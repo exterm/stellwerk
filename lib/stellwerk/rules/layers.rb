@@ -55,7 +55,8 @@ module Stellwerk
 
         def excepted?(reference)
           @exceptions.any? do |from, to|
-            reference.relative_path.to_s == from && reference.constant.name == to
+            reference.relative_path.to_s == from &&
+              reference.constant.name.delete_prefix("::") == to.delete_prefix("::")
           end
         end
 

@@ -82,6 +82,27 @@ In this scenario,
 - code in `lib` can not depend on controllers, jobs or models and jobs or models can not depend on controllers
 - everything not mentioned (e.g. `app/services`) can depend on anything else and be depended on by anything else
 
+##### Named stacks and exceptions
+
+Instead of a single list, you can define multiple named layer stacks, each enforced independently. A stack may declare `exceptions`: specific `from`/`to` references that are allowed despite the layering. The `to` is a constant name, matched ignoring any leading `::` (so both `OcppMessage` and `::OcppMessage` work).
+
+```yaml
+rules:
+  layers:
+    app_layering:
+      stack:
+        - app/controllers
+        - [ app/jobs, app/models ]
+        - lib
+    pipeline_boundary:
+      stack:
+        - engines/pipeline
+        - app
+      exceptions:
+        - from: app/services/csms_health.rb
+          to: OcppMessage
+```
+
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake test` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.

@@ -4,6 +4,8 @@ require "test_helper"
 require "stellwerk/rules/layers"
 
 class TestRulesLayers < Minitest::Test
+  include FakeReferenceBuilder
+
   FakeConstant = Struct.new(:location)
   FakeReference = Struct.new(:relative_path, :constant)
 
@@ -52,14 +54,6 @@ class TestRulesLayers < Minitest::Test
     assert_equal bad, violations.first.reference
   end
 
-  # Name-carrying reference, needed for exception matching (matches on constant name).
-  NamedConstant = Struct.new(:name, :location)
-  NamedReference = Struct.new(:relative_path, :constant)
-
-  def named_reference(from:, to_name:, to_location:)
-    NamedReference.new(from, NamedConstant.new(to_name, to_location))
-  end
-
   def test_multiple_named_stacks_are_all_enforced
     rule = Stellwerk::Rules::Layers.new(
       "app_layering" => {"stack" => ["app/services", "app/models"]},
@@ -84,16 +78,10 @@ class TestRulesLayers < Minitest::Test
       }
     )
 
-    excepted = named_reference(
-      from: "app/services/csms_health.rb",
-      to_name: "OcppMessage",
-      to_location: "engines/pipeline/app/models/ocpp_message.rb"
-    )
-    still_flagged = named_reference(
-      from: "app/services/other.rb",
-      to_name: "OcppMessage",
-      to_location: "engines/pipeline/app/models/ocpp_message.rb"
-    )
+    excepted = ref(from: "app/services/csms_health.rb", line: 1,
+      to: "::OcppMessage", to_location: "engines/pipeline/app/models/ocpp_message.rb")
+    still_flagged = ref(from: "app/services/other.rb", line: 1,
+      to: "::OcppMessage", to_location: "engines/pipeline/app/models/ocpp_message.rb")
 
     violations = rule.find_violations([excepted, still_flagged])
 
