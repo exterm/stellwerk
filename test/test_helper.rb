@@ -5,3 +5,5 @@ require "stellwerk"
 
 require "minitest/autorun"
 require "mocha/minitest"
+
+require_relative "support/fake_reference"

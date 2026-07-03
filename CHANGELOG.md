@@ -1,5 +1,7 @@
 ## [Unreleased]
 
+- Add `stellwerk:graph` task to dump the dependency graph as TSV for querying
+
 ## [0.0.5] - 2026-02-15
 
 - fix for `vendor` directory exclusion, which broke the check task

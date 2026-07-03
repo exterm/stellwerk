@@ -38,6 +38,26 @@ There can be false positives with this mode for custom autoloader configurations
 bin/rails stellwerk:check_simple
 ```
 
+### Querying the dependency graph
+
+Stellwerk can dump the application's dependency graph as TSV so tools (including AI coding
+agents) can query it. The task writes the graph to stdout; pipe it to a file:
+
+```bash
+bin/rails stellwerk:graph > tmp/stellwerk_graph.tsv
+```
+
+Each row is one constant reference with columns `from`, `line`, `to`, `to_location`. Query it
+with `awk`:
+
+```bash
+# What depends on a file (impact analysis)?
+awk -F'\t' '$4=="app/models/order.rb"' tmp/stellwerk_graph.tsv
+
+# What does a file depend on?
+awk -F'\t' '$1=="app/services/checkout.rb"' tmp/stellwerk_graph.tsv
+```
+
 ### Rules
 
 Rules are defined in the `stellwerk.yml` file.
