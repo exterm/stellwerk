@@ -58,18 +58,6 @@ awk -F'\t' '$4=="app/models/order.rb"' tmp/stellwerk_graph.tsv
 awk -F'\t' '$1=="app/services/checkout.rb"' tmp/stellwerk_graph.tsv
 ```
 
-#### Telling Claude Code about it
-
-To let an AI coding agent use the graph, add a section like this to your app's `AGENTS.md`
-or `CLAUDE.md`:
-
-```markdown
-## Querying the dependency graph
-Build it once: `bin/rails stellwerk:graph > tmp/stellwerk_graph.tsv`
-- What depends on X: `awk -F'\t' '$4=="path/to/file.rb"' tmp/stellwerk_graph.tsv`
-- What X depends on: `awk -F'\t' '$1=="path/to/file.rb"' tmp/stellwerk_graph.tsv`
-```
-
 ### Rules
 
 Rules are defined in the `stellwerk.yml` file.

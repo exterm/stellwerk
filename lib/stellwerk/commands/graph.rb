@@ -24,7 +24,6 @@ module Stellwerk
         GraphFormatter.new(edgelist).write(@out)
 
         print_recipes
-        edgelist
       end
 
       private

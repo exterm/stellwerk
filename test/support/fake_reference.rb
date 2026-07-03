@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-# Shared fixtures mirroring the shape of ReferenceExtractor::Reference that
-# GraphFormatter and Commands::Graph consume.
 module FakeReferenceBuilder
   FakeLocation = Struct.new(:line)
   FakeConstant = Struct.new(:name, :location)

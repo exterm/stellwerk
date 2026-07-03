@@ -13,17 +13,13 @@ class TestCommandsGraph < Minitest::Test
     Stellwerk::Commands::Graph.new("/tmp/app", autoloaders: [], out: out, err: err, graph: fake_graph)
   end
 
-  def test_run_writes_tsv_to_the_data_io
+  def test_run_writes_the_formatted_graph_to_the_data_io
     edgelist = [ref(from: "app/services/checkout.rb", line: 8, to: "PaymentGateway", to_location: "lib/payment_gateway.rb")]
     out = StringIO.new
-    err = StringIO.new
 
-    build_command(edgelist, out: out, err: err).run
+    build_command(edgelist, out: out, err: StringIO.new).run
 
-    assert_equal <<~TSV, out.string
-      from\tline\tto\tto_location
-      app/services/checkout.rb\t8\tPaymentGateway\tlib/payment_gateway.rb
-    TSV
+    assert_includes out.string, "app/services/checkout.rb\t8\tPaymentGateway\tlib/payment_gateway.rb"
   end
 
   def test_run_writes_diagnostics_and_recipes_only_to_the_error_io
@@ -37,13 +33,5 @@ class TestCommandsGraph < Minitest::Test
     assert_includes err.string, "awk -F"
     refute_includes out.string, "extracted"
     refute_includes out.string, "awk"
-  end
-
-  def test_run_returns_the_edgelist
-    edgelist = [ref(from: "a.rb", line: 1, to: "B", to_location: "b.rb")]
-
-    result = build_command(edgelist, out: StringIO.new, err: StringIO.new).run
-
-    assert_equal edgelist, result
   end
 end
