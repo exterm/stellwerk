@@ -14,4 +14,10 @@ namespace :stellwerk do
 
     exit 1 if violations.any?
   end
+
+  task graph: :environment do
+    autoloaders = [Rails.autoloaders.main, Rails.autoloaders.once].compact
+
+    Stellwerk::Commands::Graph.new(Rails.root, autoloaders: autoloaders).run
+  end
 end

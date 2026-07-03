@@ -53,6 +53,24 @@ class TestStellwerkRakeTask < Minitest::Test
     Rake::Task["stellwerk:check"].invoke
   end
 
+  def test_graph_invokes_graph_with_rails_root_and_autoloaders
+    Rake::Task.define_task(:environment)
+
+    main_loader = Object.new
+    fake_autoloaders = Struct.new(:main, :once).new(main_loader, nil)
+    fake_root = Pathname.new("/tmp/app")
+    graph_instance = mock("graph")
+    graph_instance.expects(:run).once.returns([])
+
+    Rails.stubs(:autoloaders).returns(fake_autoloaders)
+    Rails.stubs(:root).returns(fake_root)
+    Stellwerk::Commands::Graph.expects(:new)
+      .with(fake_root, autoloaders: [main_loader])
+      .returns(graph_instance)
+
+    Rake::Task["stellwerk:graph"].invoke
+  end
+
   def test_check_exits_with_status_1_when_violations_exist
     Rake::Task.define_task(:environment)
 
