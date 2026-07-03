@@ -5,13 +5,7 @@ require "stellwerk/commands/graph"
 require "stringio"
 
 class TestCommandsGraph < Minitest::Test
-  FakeLocation = Struct.new(:line)
-  FakeConstant = Struct.new(:name, :location)
-  FakeReference = Struct.new(:relative_path, :constant, :source_location)
-
-  def ref(from:, line:, to:, to_location:)
-    FakeReference.new(from, FakeConstant.new(to, to_location), FakeLocation.new(line))
-  end
+  include FakeReferenceBuilder
 
   def build_command(edgelist, out:, err:)
     fake_graph = mock("graph")
