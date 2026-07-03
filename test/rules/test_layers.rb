@@ -4,6 +4,8 @@ require "test_helper"
 require "stellwerk/rules/layers"
 
 class TestRulesLayers < Minitest::Test
+  include FakeReferenceBuilder
+
   FakeConstant = Struct.new(:location)
   FakeReference = Struct.new(:relative_path, :constant)
 
@@ -29,14 +31,14 @@ class TestRulesLayers < Minitest::Test
     end
   end
 
-  def test_filter_graph_only_keeps_references_between_known_components
-    rule = Stellwerk::Rules::Layers.new(["app/models", "app/services"])
+  def test_stack_filter_graph_only_keeps_references_between_known_components
+    stack = Stellwerk::Rules::Layers::Stack.new(["app/models", "app/services"], [])
 
     r1 = reference(from: "app/models/user.rb", to: "app/services/do_thing.rb")
     r2 = reference(from: "lib/foo.rb", to: "app/models/user.rb")
     r3 = reference(from: "app/models/user.rb", to: "lib/foo.rb")
 
-    assert_equal [r1], rule.filter_graph([r1, r2, r3])
+    assert_equal [r1], stack.filter_graph([r1, r2, r3])
   end
 
   def test_find_violations_flags_references_from_lower_to_higher_layer
@@ -50,5 +52,47 @@ class TestRulesLayers < Minitest::Test
     assert_equal 1, violations.size
     assert_equal :layers, violations.first.rule
     assert_equal bad, violations.first.reference
+  end
+
+  def test_multiple_named_stacks_are_all_enforced
+    rule = Stellwerk::Rules::Layers.new(
+      "app_layering" => {"stack" => ["app/services", "app/models"]},
+      "pipeline_boundary" => {"stack" => ["engines/pipeline", "app"]}
+    )
+
+    app_layering_violation = reference(from: "app/models/user.rb", to: "app/services/do_thing.rb")
+    pipeline_violation = reference(from: "app/services/x.rb", to: "engines/pipeline/app/models/ocpp_message.rb")
+    ok = reference(from: "engines/pipeline/app/models/ocpp_message.rb", to: "app/models/user.rb")
+
+    violations = rule.find_violations([app_layering_violation, pipeline_violation, ok])
+
+    assert_equal [app_layering_violation, pipeline_violation].sort_by(&:to_s),
+      violations.map(&:reference).sort_by(&:to_s)
+  end
+
+  def test_exceptions_suppress_a_specific_from_to_reference
+    rule = Stellwerk::Rules::Layers.new(
+      "pipeline_boundary" => {
+        "stack" => ["engines/pipeline", "app"],
+        "exceptions" => [{"from" => "app/services/csms_health.rb", "to" => "OcppMessage"}]
+      }
+    )
+
+    excepted = ref(from: "app/services/csms_health.rb", line: 1,
+      to: "::OcppMessage", to_location: "engines/pipeline/app/models/ocpp_message.rb")
+    still_flagged = ref(from: "app/services/other.rb", line: 1,
+      to: "::OcppMessage", to_location: "engines/pipeline/app/models/ocpp_message.rb")
+
+    violations = rule.find_violations([excepted, still_flagged])
+
+    assert_equal [still_flagged], violations.map(&:reference)
+  end
+
+  def test_legacy_array_config_still_works_without_exceptions
+    rule = Stellwerk::Rules::Layers.new(["app/services", "app/models"])
+
+    bad = reference(from: "app/models/user.rb", to: "app/services/do_thing.rb")
+
+    assert_equal [bad], rule.find_violations([bad]).map(&:reference)
   end
 end
