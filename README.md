@@ -63,8 +63,9 @@ Drop the `{print}` and the pipe to see every reference site with its line number
 
 The graph only contains constants that the autoloaders can resolve. Constants referenced as
 strings (`"MyJob".constantize`, `config.some_class_name = "MyClass"`, job classes named in
-`config/recurring.yml`) produce no edges, and neither do routes. A file with no inbound edges is
-therefore a dead code *candidate*, not proof.
+`config/recurring.yml`) produce no edges, and neither do route-to-controller mappings
+(`resources :orders`). A file with no inbound edges is therefore a dead code *candidate*, not
+proof.
 
 ### Rules
 
