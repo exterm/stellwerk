@@ -30,8 +30,9 @@ module Stellwerk
 
       def print_recipes
         @err.puts "query it (pipe stdout to a file first, e.g. > tmp/stellwerk_graph.tsv):"
-        @err.puts "  what depends on X:  awk -F'\\t' '$4==\"path/to/file.rb\"' tmp/stellwerk_graph.tsv"
-        @err.puts "  what X depends on:  awk -F'\\t' '$1==\"path/to/file.rb\"' tmp/stellwerk_graph.tsv"
+        @err.puts "  what depends on X:  awk -F'\\t' '$4==\"path/to/file.rb\" {print $1}' tmp/stellwerk_graph.tsv | sort -u"
+        @err.puts "  what X depends on:  awk -F'\\t' '$1==\"path/to/file.rb\" {print $4}' tmp/stellwerk_graph.tsv | sort -u"
+        @err.puts "  drop the pipe and the {print} to see every reference site with its line number"
       end
     end
   end

@@ -1,6 +1,7 @@
 ## [Unreleased]
 
 - Add `stellwerk:graph` task to dump the dependency graph as TSV for querying
+- Describe the rake tasks so they appear in `rails -T`
 
 ## [0.0.5] - 2026-02-15
 

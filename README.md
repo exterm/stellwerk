@@ -32,7 +32,7 @@ bin/rails stellwerk:check
 
 You can also run a simpler check without booting the app. Stellwerk will not use the app's autoloaders and instead emulate a default Rails setup.
 This is useful for testing or as a workaround when Stellwerk doesn't understand your autoloader setup (please report a bug in that case).
-There can be false positives with this mode for custom autoloader configurations.
+For custom autoloader configurations this mode can both miss references and report ones that don't exist.
 
 ```bash
 bin/rails stellwerk:check_simple
@@ -47,16 +47,25 @@ agents) can query it. The task writes the graph to stdout; pipe it to a file:
 bin/rails stellwerk:graph > tmp/stellwerk_graph.tsv
 ```
 
-Each row is one constant reference with columns `from`, `line`, `to`, `to_location`. Query it
-with `awk`:
+Each row is one constant reference with columns `from`, `line`, `to`, `to_location`. A file that
+references the same constant on ten lines produces ten rows, so deduplicate when you want files
+rather than reference sites:
 
 ```bash
 # What depends on a file (impact analysis)?
-awk -F'\t' '$4=="app/models/order.rb"' tmp/stellwerk_graph.tsv
+awk -F'\t' '$4=="app/models/order.rb" {print $1}' tmp/stellwerk_graph.tsv | sort -u
 
 # What does a file depend on?
-awk -F'\t' '$1=="app/services/checkout.rb"' tmp/stellwerk_graph.tsv
+awk -F'\t' '$1=="app/services/checkout.rb" {print $4}' tmp/stellwerk_graph.tsv | sort -u
 ```
+
+Drop the `{print}` and the pipe to see every reference site with its line number.
+
+The graph only contains constants that the autoloaders can resolve. Constants referenced as
+strings (`"MyJob".constantize`, `config.some_class_name = "MyClass"`, job classes named in
+`config/recurring.yml`) produce no edges, and neither do route-to-controller mappings
+(`resources :orders`). A file with no inbound edges is therefore a dead code *candidate*, not
+proof.
 
 ### Rules
 
